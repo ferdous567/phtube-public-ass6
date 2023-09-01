@@ -25,17 +25,30 @@ const res = await
     const data = await res.json();
     // console.log(data.data);
     const videos = data.data;
-    console.log(videos);
+    
+    // if(isSort){
+    //     videos = videos.sort((a, b) => a-b);
+    // }
+    const videoContainer = document.getElementById('video-container');
+        videoContainer.textContent ='';
     if(videos.length > 0){
-        const videoContainer = document.getElementById('video-container');
-    videoContainer.textContent ='';
-    videos.forEach(video => {
-        console.log(videos.length)
         
+    videos.forEach(video => {
+        console.log(video);
+        const time = video.others.posted_date;
         const videoDiv = document.createElement('div');
         videoDiv.classList = `card bg-base-100 shadow-xl`;
         videoDiv.innerHTML =`
-        <figure><img src="${video.thumbnail}" alt="Shoes" /></figure>
+        
+        <figure><img class="relative h-40 w-full" src="${video.thumbnail}" alt="Shoes" />
+        <div>${video.others.posted_date ? `
+        
+        <div id="convert" class="absolute top-32 right-3 bg-slate-50 rounded-full w-2/4">
+        <h2 class="pl-2 ">5 hour 30 min ago </h2>
+        </div>
+        ` : ''}</div>
+        
+        </figure>
                     <div class="card-body">
                     <div class="flex justify-start gap-3">
                     <img class="rounded-full h-10 w-10" src="${video.authors[0].profile_picture}" alt="Shoes" />
@@ -48,20 +61,21 @@ const res = await
                         
                         
                       </h2>
-                      <p>If a dog chews shoes whose shoes does he choose?</p>
+                      
                       <p>${video.others.views} <span>views</span></p>
                       
                     </div>
         `;
         videoContainer.appendChild(videoDiv);
        
-
+        
     });
        } 
        else{
-        console.log('not found')
+        // console.log('not found')
 
         const notFound = document.getElementById('not-found');
+        notFound.textContent = '';
         const createFound = document.createElement('div');
         createFound.innerHTML = `
         <img class="mx-auto my-20" src="images/icon.png" alt="Shoes" />
@@ -71,8 +85,10 @@ const res = await
        }
      
 };
-
-
+    
+// const sortByView = () =>{
+//     handleButton(true);
+// }
 
 loadData();
 
